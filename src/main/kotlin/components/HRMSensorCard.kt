@@ -79,7 +79,7 @@ fun HRMSensorReadingCard() {
             SensorRow(
                 label = "Temperature Inlet",
                 value = 0.toString(),
-                unit = "C",
+                unit = "ºC",
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
             Spacer(modifier = Modifier.padding(0.5.dp))
@@ -88,7 +88,7 @@ fun HRMSensorReadingCard() {
             SensorRow(
                 label = "Temperature Outlet",
                 value = 0.toString(),
-                unit = "C",
+                unit = "ºC",
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
             Spacer(modifier = Modifier.padding(0.5.dp))
