@@ -196,7 +196,7 @@ fun HRMSensorReadingCard() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "On Time",
+                                    text = "Burn Time",
                                     color = Color.White,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Medium
