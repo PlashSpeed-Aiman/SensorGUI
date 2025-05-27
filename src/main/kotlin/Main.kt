@@ -8,20 +8,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import components.ControlPanelCard
+import components.HRMSensorReadingCard
 import components.SensorsReadingCard
 import screens.TcpClientScreen
 
 // Define our screens
 enum class Screen {
     Home,
-    Settings,
-    Profile,
+    HRM,
+    SRM,
     TCP
 }
 
@@ -41,8 +40,8 @@ fun App() {
             Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                 when (currentScreen) {
                     Screen.Home -> HomeScreen()
-                    Screen.Settings -> SettingsScreen()
-                    Screen.Profile -> ProfileScreen()
+                    Screen.HRM -> SettingsScreen()
+                    Screen.SRM -> ProfileScreen()
                     Screen.TCP -> TcpClientScreen()
                 }
             }
@@ -89,16 +88,15 @@ fun HomeScreen() {
 
 @Composable
 fun SettingsScreen() {
-    Column(
+    Row(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalArrangement = Arrangement.SpaceEvenly
+
     ) {
-        Text("Settings Screen")
-        // Add your settings controls here
-        Button(onClick = { /* Handle settings action */ }) {
-            Text("Change Settings")
-        }
+        ControlPanelCard()
+        Spacer(modifier = Modifier.width(8.dp))
+        HRMSensorReadingCard()
+
     }
 }
 

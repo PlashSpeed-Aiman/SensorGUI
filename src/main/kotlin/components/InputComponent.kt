@@ -84,6 +84,12 @@ fun ActionButtonsSection() {
             modifier = Modifier.weight(1f),
             onClick = { /* Handle ignition action */ }
         )
+
+        ControlButton(
+            text = "Stop Ignition",
+            modifier = Modifier.weight(1f),
+            onClick = { /* Handle ignition action */ }
+        )
     }
 }
 
@@ -190,14 +196,24 @@ fun EmergencyStopSection() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium
         )
+        Row(){
+            ControlButton(
+                text = "Start Auto Ignition",
+                modifier = Modifier.weight(0.5f),
+                textColor = Color.White,
+                onClick = { /* Handle emergency stop */ }
+            )
+            Spacer(modifier = Modifier.padding(4.dp))
+            ControlButton(
+                text = "STOP",
+                modifier = Modifier.weight(0.5f),
+                backgroundColor = Color(0xFFDC143C), // Crimson red for emergency
+                textColor = Color.White,
+                onClick = { /* Handle emergency stop */ }
+            )
+        }
 
-        ControlButton(
-            text = "STOP",
-            modifier = Modifier.fillMaxWidth(),
-            backgroundColor = Color(0xFFDC143C), // Crimson red for emergency
-            textColor = Color.White,
-            onClick = { /* Handle emergency stop */ }
-        )
+
     }
 }
 
