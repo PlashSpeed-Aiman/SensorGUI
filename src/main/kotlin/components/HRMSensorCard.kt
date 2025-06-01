@@ -23,10 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import viewmodels.HrmViewModel
 
 @Composable
-fun HRMSensorReadingCard() {
+fun HRMSensorReadingCard(viewModel: HrmViewModel) {
+
+    val spacerPadding = (1).dp
     Card(
         modifier = Modifier
             .width(500.dp)
@@ -55,12 +57,12 @@ fun HRMSensorReadingCard() {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.padding(0.5.dp))
+            Spacer(modifier = Modifier.padding(spacerPadding))
 
             // Load Cell Row
             SensorRow(
                 label = "Load Cell",
-                value = "0",
+                value = viewModel.sensorViewModel.loadCell ?: "N/A",
                 unit = "N",
                 backgroundColor = Color(0xFF2E8B8B) // Teal color
             )
@@ -69,46 +71,45 @@ fun HRMSensorReadingCard() {
             // Ignition Status Row
             SensorRow(
                 label = "Ignition Status",
-                value = "OFF",
+                value = viewModel.sensorViewModel.ignitionStatus,
                 unit = null,
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
-            Spacer(modifier = Modifier.padding(0.5.dp))
+            Spacer(modifier = Modifier.padding(spacerPadding))
 
             // Ignition Status Row
             SensorRow(
                 label = "Temperature Inlet",
-                value = 0.toString(),
+                value = viewModel.sensorViewModel.temperatureInlet,
                 unit = "ºC",
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
-            Spacer(modifier = Modifier.padding(0.5.dp))
+            Spacer(modifier = Modifier.padding(spacerPadding))
 
             // Ignition Status Row
             SensorRow(
                 label = "Temperature Outlet",
-                value = 0.toString(),
+                value = viewModel.sensorViewModel.temperatureOutlet,
                 unit = "ºC",
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
-            Spacer(modifier = Modifier.padding(0.5.dp))
+            Spacer(modifier = Modifier.padding(spacerPadding))
 
             SensorRow(
                 label = "Pressure Inlet",
-                value = 0.toString(),
+                value = viewModel.sensorViewModel.pressureInlet.toString(),
                 unit = "bar",
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
-            Spacer(modifier = Modifier.padding(0.5.dp))
+            Spacer(modifier = Modifier.padding(spacerPadding))
 
             SensorRow(
                 label = "Pressure Outlet",
-                value = 0.toString(),
+                value = viewModel.sensorViewModel.pressureOutlet.toString(),
                 unit = "bar",
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
-            Spacer(modifier = Modifier.padding(0.5.dp))
-            // Valve Section
+            Spacer(modifier = Modifier.padding(spacerPadding))
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -174,7 +175,7 @@ fun HRMSensorReadingCard() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "OFF",
+                                    text = viewModel.sensorViewModel.valveStatus,
                                     color = Color.Black,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Medium
@@ -217,7 +218,7 @@ fun HRMSensorReadingCard() {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = "0",
+                                        text = viewModel.sensorViewModel.burnTime ?: "N/A",
                                         color = Color.Black,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Medium
@@ -243,6 +244,146 @@ fun HRMSensorReadingCard() {
                                 }
                             }
                         }
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.padding(spacerPadding))
+            // Valve Section
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Valve Status Row
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    // Valve label
+                    Box(
+                        modifier = Modifier
+                            .weight(0.4f)
+                            .background(
+                                Color(0xFFB0C4DE),
+                                RoundedCornerShape(8.dp)
+                            )
+                            .padding(vertical = 24.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Valve",
+                            color = Color.Black,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+
+                    // Status section
+                    Column(
+                        modifier = Modifier.weight(0.6f),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(0.5f)
+                                    .background(
+                                        Color(0xFF2E8B8B),
+                                        RoundedCornerShape(6.dp)
+                                    )
+                                    .padding(vertical = 8.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Burn Time",
+                                    color = Color.White,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                            Row(
+                                modifier = Modifier.weight(0.5f),
+                                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .weight(0.8f)
+                                        .background(
+                                            Color.White,
+                                            RoundedCornerShape(6.dp)
+                                        )
+                                        .padding(vertical = 8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = viewModel.sensorViewModel.burnTime ?: "N/A",
+                                        color = Color.Black,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+
+                                Box(
+                                    modifier = Modifier
+                                        .weight(0.2f)
+                                        .background(
+                                            Color(0xFF2E8B8B),
+                                            RoundedCornerShape(6.dp)
+                                        )
+                                        .padding(vertical = 8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = "s",
+                                        color = Color.White,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                            }
+                        }
+                        // Status label and value
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(0.5f)
+                                    .background(
+                                        Color(0xFF2E8B8B),
+                                        RoundedCornerShape(6.dp)
+                                    )
+                                    .padding(vertical = 8.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "Status",
+                                    color = Color.White,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+
+                            Box(
+                                modifier = Modifier
+                                    .weight(0.5f)
+                                    .background(
+                                        Color(0xFFB0C4DE),
+                                        RoundedCornerShape(6.dp)
+                                    )
+                                    .padding(vertical = 8.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = viewModel.sensorViewModel.valveStatus,
+                                    color = Color.Black,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
+                        // On Time section
+
                     }
                 }
             }

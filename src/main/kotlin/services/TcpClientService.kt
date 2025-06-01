@@ -15,7 +15,7 @@ class TcpClientService {
     private val isConnected = AtomicBoolean(false)
 
     private val _receivedData = MutableSharedFlow<String>(
-        replay = 0,
+        replay = 100,
         extraBufferCapacity = 64 // Adjust buffer size based on your needs
     )
     val receivedData = _receivedData.asSharedFlow()

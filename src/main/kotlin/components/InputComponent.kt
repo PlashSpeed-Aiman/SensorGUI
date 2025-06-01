@@ -1,18 +1,11 @@
 ﻿package components
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,12 +14,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import host
+import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
+import port
+import viewmodels.HrmViewModel
+import viewmodels.IModeViewModel
+import viewmodels.TcpViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ControlPanelCard() {
+fun ControlPanelCard(viewModel: IModeViewModel) {
     Card(
         modifier = Modifier
             .width(400.dp)
@@ -55,20 +53,41 @@ fun ControlPanelCard() {
                 textAlign = TextAlign.Center
             )
 
+            Button(
+                shape = MaterialTheme.shapes.medium,
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 20.dp),
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White,
+                    containerColor = Color(0xFF2E8B8B)
+                ),
+                onClick = {
+                    viewModel.connect(host,port.toInt())
+                }
+            ) {
+                Text(
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    text = "Start Connection"
+                )
+            }
+            Spacer(
+                modifier = Modifier.fillMaxWidth().background(Color.White)
+                    .border(0.01.dp, Color.White, shape = RoundedCornerShape(4.dp)).padding(4.dp)
+            )
             // Action Buttons Row
-            ActionButtonsSection()
+            ActionButtonsSection(viewModel)
 
             // Input Section
-            InputSection()
+            InputSection(viewModel)
 
             // Emergency Stop Section
-            EmergencyStopSection()
+            EmergencyStopSection(viewModel)
         }
     }
 }
 
 @Composable
-fun ActionButtonsSection() {
+fun ActionButtonsSection(viewModel: IModeViewModel) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -76,25 +95,32 @@ fun ActionButtonsSection() {
         ControlButton(
             text = "Tare Load Cell",
             modifier = Modifier.weight(1f),
-            onClick = { /* Handle tare action */ }
+            onClick = {
+                viewModel.sendMessage("TARE")
+            }
         )
 
         ControlButton(
             text = "Start Ignition",
             modifier = Modifier.weight(1f),
-            onClick = { /* Handle ignition action */ }
+            onClick = {
+                viewModel.sendMessage("ON")
+            }
         )
 
         ControlButton(
             text = "Stop Ignition",
             modifier = Modifier.weight(1f),
-            onClick = { /* Handle ignition action */ }
+            onClick = {
+            /* Handle ignition action */
+                viewModel.sendMessage("OFF")
+            }
         )
     }
 }
 
 @Composable
-fun InputSection() {
+fun InputSection(viewModel: IModeViewModel) {
     var inputText by remember { mutableStateOf("") }
 
     Column(
@@ -169,7 +195,10 @@ fun InputSection() {
                 modifier = Modifier.weight(1f),
                 backgroundColor = Color(0xFF2E8B8B),
                 textColor = Color.White,
-                onClick = { /* Handle insert */ }
+                onClick = {
+                    viewModel.sendMessage( "$inputText" )
+
+                }
             )
 
             ControlButton(
@@ -184,7 +213,7 @@ fun InputSection() {
 }
 
 @Composable
-fun EmergencyStopSection() {
+fun EmergencyStopSection(viewModel: IModeViewModel) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -201,7 +230,9 @@ fun EmergencyStopSection() {
                 text = "Start Auto Ignition",
                 modifier = Modifier.weight(0.5f),
                 textColor = Color.White,
-                onClick = { /* Handle emergency stop */ }
+                onClick = {
+                    viewModel.sendMessage("AUTO")
+                }
             )
             Spacer(modifier = Modifier.padding(4.dp))
             ControlButton(
@@ -209,7 +240,9 @@ fun EmergencyStopSection() {
                 modifier = Modifier.weight(0.5f),
                 backgroundColor = Color(0xFFDC143C), // Crimson red for emergency
                 textColor = Color.White,
-                onClick = { /* Handle emergency stop */ }
+                onClick = {
+                    viewModel.sendMessage("STOP")
+                }
             )
         }
 
