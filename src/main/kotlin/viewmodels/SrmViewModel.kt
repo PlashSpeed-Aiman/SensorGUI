@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parametersOf
+import org.koin.mp.KoinPlatform.getKoin
 import services.CsvWriterService
 import services.TcpClientService
 import java.time.LocalDateTime
@@ -15,7 +17,7 @@ class SrmViewModel : IModeViewModel {
     private val tcpClient = TcpClientService()
     private val csvWriter = CsvWriterService("srm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
 
-    val sensorViewModel = SensorViewModel()
+    val sensorViewModel : SensorViewModel = getKoin().get { parametersOf(this) }
     private val scope = CoroutineScope(Dispatchers.Main)
 
     var receivedMessages by mutableStateOf<List<String>>(emptyList())

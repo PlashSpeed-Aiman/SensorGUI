@@ -167,7 +167,7 @@ fun main() = application {
             System.setOut(System.out)
             exitApplication()
         },
-        title = "Multi-Page Compose App",
+        title = "Multi-Page Compose App"
     ) {
     App()
     }
