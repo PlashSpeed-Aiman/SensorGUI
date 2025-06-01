@@ -11,6 +11,10 @@ class SensorViewModel {
         private set
     var ignitionStatus by mutableStateOf("OFF")
         private set
+
+    var ignitionType by mutableStateOf("N/A")
+        private set
+
     var temperatureInlet by mutableStateOf("0")
         private set
     var temperatureOutlet by mutableStateOf("0")
@@ -31,6 +35,7 @@ class SensorViewModel {
             val data = Json{ ignoreUnknownKeys = true }.decodeFromString<SensorData>(message)
             loadCell = data.loadCell.toString()
             ignitionStatus = data.ignitionStatus?: ""
+            ignitionType = data.ignitionType?:""
             temperatureInlet = data.temperatureInlet.toString()
             temperatureOutlet = data.temperatureOutlet.toString()
             pressureInlet = data.pressureInlet.toString()

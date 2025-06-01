@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 data class SensorData(
     val loadCell: Double?,
     val ignitionStatus: String?,
+    val ignitionType: String?,
     val temperatureInlet: Double?,
     val temperatureOutlet: Double?,
     val pressureInlet: Double?,

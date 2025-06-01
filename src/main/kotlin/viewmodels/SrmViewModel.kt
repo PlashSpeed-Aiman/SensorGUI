@@ -11,9 +11,9 @@ import services.TcpClientService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class HrmViewModel: IModeViewModel {
+class SrmViewModel : IModeViewModel {
     private val tcpClient = TcpClientService()
-    private val csvWriter = CsvWriterService("hrm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
+    private val csvWriter = CsvWriterService("srm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
 
     val sensorViewModel = SensorViewModel()
     private val scope = CoroutineScope(Dispatchers.Main)

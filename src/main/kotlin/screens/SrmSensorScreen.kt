@@ -7,18 +7,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.ControlPanelCard
 import components.SensorsReadingCard
+import viewmodels.SrmViewModel
 
 @Preview()
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(viewModel: SrmViewModel = remember { SrmViewModel() }) {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceEvenly
 
     ) {
-        //ControlPanelCard()
+        ControlPanelCard(viewModel)
         Spacer(modifier = Modifier.width(8.dp))
-        SensorsReadingCard()
+        SensorsReadingCard(viewModel)
 
     }
 }

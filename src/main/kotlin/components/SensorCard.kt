@@ -15,21 +15,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import viewmodels.SrmViewModel
+
 
 @Composable
-fun SensorsReadingScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF87CEEB)), // Light blue background
-        contentAlignment = Alignment.Center
-    ) {
-        SensorsReadingCard()
-    }
-}
-
-@Composable
-fun SensorsReadingCard() {
+fun SensorsReadingCard(viewModel: SrmViewModel) {
     androidx.compose.material3.Card(
         modifier = Modifier
             .width(500.dp)
@@ -62,7 +52,7 @@ fun SensorsReadingCard() {
             // Load Cell Row
             SensorRow(
                 label = "Load Cell",
-                value = "0",
+                value = viewModel.sensorViewModel.loadCell ?: "N/A",
                 unit = "N",
                 backgroundColor = Color(0xFF2E8B8B) // Teal color
             )
@@ -71,7 +61,13 @@ fun SensorsReadingCard() {
             // Ignition Status Row
             SensorRow(
                 label = "Ignition Status",
-                value = "OFF",
+                value = viewModel.sensorViewModel.ignitionStatus,
+                unit = null,
+                backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
+            )
+            SensorRow(
+                label = "Ignition Type",
+                value = viewModel.sensorViewModel.ignitionType,
                 unit = null,
                 backgroundColor = Color(0xFFB0C4DE) // Light blue-gray
             )
@@ -142,7 +138,7 @@ fun SensorsReadingCard() {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "OFF",
+                                    text = viewModel.sensorViewModel.valveStatus,
                                     color = Color.Black,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Medium
@@ -185,7 +181,7 @@ fun SensorsReadingCard() {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = "0",
+                                        text = viewModel.sensorViewModel.burnTime ?: "N/A",
                                         color = Color.Black,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Medium
