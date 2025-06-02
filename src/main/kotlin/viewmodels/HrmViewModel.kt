@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
 
 class HrmViewModel: IModeViewModel {
     private val tcpClient = TcpClientService()
-    private val csvWriter = CsvWriterService("hrm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
+    private lateinit var csvWriter : CsvWriterService
 
     val sensorViewModel = SensorViewModel()
     private val scope = CoroutineScope(Dispatchers.Main)
@@ -50,6 +50,7 @@ class HrmViewModel: IModeViewModel {
 
 
     override fun connect(host: String, port: Int) {
+        csvWriter = CsvWriterService("hrm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
         scope.launch {
             tcpClient.connect(host, port)
         }
@@ -63,5 +64,9 @@ class HrmViewModel: IModeViewModel {
         scope.launch {
             tcpClient.sendData(message)
         }
+    }
+
+    override fun dispose(){
+        tcpClient.disconnect()
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.ControlPanelCard
 import components.HRMSensorReadingCard
+import org.koin.mp.KoinPlatform.getKoin
 import viewmodels.HrmViewModel
 
 @Composable

@@ -55,7 +55,9 @@ fun App() {
             Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                 when (currentScreen) {
                     Screen.Home -> HomeScreen()
-                    Screen.HRM -> SettingsScreen()
+                    Screen.HRM -> {
+                        SettingsScreen()
+                    }
                     Screen.SRM -> ProfileScreen()
                     Screen.TCP -> TcpClientScreen()
                 }

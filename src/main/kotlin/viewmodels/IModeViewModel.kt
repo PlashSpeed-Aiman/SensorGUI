@@ -6,4 +6,6 @@ interface IModeViewModel {
     fun disconnect()
 
     fun sendMessage(message: String)
+
+    fun dispose()
 }
