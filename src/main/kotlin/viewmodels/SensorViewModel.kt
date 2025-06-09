@@ -40,7 +40,7 @@ class SensorViewModel {
             temperatureOutlet = data.temperatureOutlet.toString()
             pressureInlet = data.pressureInlet.toString()
             pressureOutlet = data.pressureOutlet.toString()
-            valveStatus = data.valveStatus?: ""
+            valveStatus = (data.ignitionStatus ?: false).toString()
             burnTime = data.burnTime.toString()
         } catch (e: Exception) {
             println("Error parsing TCP message: ${e.message}")

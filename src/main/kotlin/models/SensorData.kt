@@ -10,6 +10,6 @@ data class SensorData(
     val temperatureOutlet: Double?,
     val pressureInlet: Double?,
     val pressureOutlet: Double?,
-    val valveStatus: String?,
+    val valveStatus: Boolean?,
     val burnTime: Double?
 )
