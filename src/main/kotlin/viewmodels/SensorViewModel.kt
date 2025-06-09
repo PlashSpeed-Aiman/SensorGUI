@@ -34,7 +34,7 @@ class SensorViewModel {
             // Example for JSON parsing
             val data = Json{ ignoreUnknownKeys = true }.decodeFromString<SensorData>(message)
             loadCell = data.loadCell.toString()
-            ignitionStatus = data.ignitionStatus?: ""
+            ignitionStatus = (data.ignitionStatus ?: false).toString()
             ignitionType = data.ignitionType?:""
             temperatureInlet = data.temperatureInlet.toString()
             temperatureOutlet = data.temperatureOutlet.toString()
