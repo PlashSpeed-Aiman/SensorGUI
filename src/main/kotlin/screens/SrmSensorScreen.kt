@@ -23,4 +23,13 @@ fun ProfileScreen(viewModel: SrmViewModel = remember { SrmViewModel() }) {
         SensorsReadingCard(viewModel)
 
     }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.disconnect()
+        }
+    }
+//    println(
+//        "ProfileScreen: ${getKoin().getScope("SRM").get<SrmViewModel>().connectionStatus}"
+//    )
 }

@@ -18,6 +18,7 @@ import host
 import kotlinx.coroutines.launch
 import org.koin.mp.KoinPlatform.getKoin
 import port
+import services.TcpClientService
 import viewmodels.HrmViewModel
 import viewmodels.IModeViewModel
 import viewmodels.TcpViewModel
@@ -52,23 +53,56 @@ fun ControlPanelCard(viewModel: IModeViewModel) {
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
-
-            Button(
-                shape = MaterialTheme.shapes.medium,
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 20.dp),
+            // Status indicator
+            val statusColor = when (viewModel.connectionStatus) {
+                is TcpClientService.ConnectionState.Connected -> Color.Green
+                is TcpClientService.ConnectionState.Error -> Color.Red
+                is TcpClientService.ConnectionState.Disconnected -> Color.Gray
+                else -> Color.White
+            }
+            Text(
+                text = "Status: ${viewModel.connectionStatus::class.simpleName}",
+                color = statusColor,
+                modifier = Modifier.padding(vertical = 5.dp)
+            )
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White,
-                    containerColor = Color(0xFF2E8B8B)
-                ),
-                onClick = {
-                    viewModel.connect(host,port.toInt())
-                }
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    fontSize = 16.sp,
-                    color = Color.White,
-                    text = "Start Connection"
-                )
+                Button(
+                    shape = MaterialTheme.shapes.medium,
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 20.dp),
+                    modifier = Modifier.fillMaxWidth().weight(0.5f),
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.White,
+                        containerColor = Color(0xFF2E8B8B)
+                    ),
+                    onClick = {
+                        viewModel.connect(host,port.toInt())
+                    }
+                ) {
+                    Text(
+                        fontSize = 16.sp,
+                        color = Color.White,
+                        text = "Start Connection"
+                    )
+                }
+                Button(
+                    shape = MaterialTheme.shapes.medium,
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 20.dp),
+                    modifier = Modifier.fillMaxWidth().weight(0.5f),
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.White,
+                        containerColor = Color(0xFFDC143C)
+                    ),
+                    onClick = {
+                        viewModel.disconnect()
+                    }
+                ){
+                    Text(
+                        fontSize = 16.sp,
+                        color = Color.White,
+                        text = "Stop Connection"
+                    )
+                }
             }
             Spacer(
                 modifier = Modifier.fillMaxWidth().background(Color.White)

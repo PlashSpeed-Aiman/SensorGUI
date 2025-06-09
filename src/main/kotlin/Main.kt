@@ -158,7 +158,9 @@ fun HomeScreen() {
 
 fun main() = application {
     val logFile = File("application.log")
-    System.setOut(PrintStream(FileOutputStream(logFile, true)))
+    if (logFile.canWrite() || logFile.createNewFile() && logFile.setWritable(true)) {
+        System.setOut(PrintStream(FileOutputStream(logFile, true)))
+    }
 
     startKoin() {
         modules(desktopModules)

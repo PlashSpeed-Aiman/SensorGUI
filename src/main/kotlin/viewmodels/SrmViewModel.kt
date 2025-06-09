@@ -23,10 +23,9 @@ class SrmViewModel : IModeViewModel {
     var receivedMessages by mutableStateOf<List<String>>(emptyList())
         private set
 
-    var connectionStatus by mutableStateOf<TcpClientService.ConnectionState>(
+    override var connectionStatus by mutableStateOf<TcpClientService.ConnectionState>(
         TcpClientService.ConnectionState.Disconnected
     )
-        private set
 
     init {
         // Collect connection state

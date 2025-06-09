@@ -8,6 +8,7 @@ import components.ControlPanelCard
 import components.HRMSensorReadingCard
 import org.koin.mp.KoinPlatform.getKoin
 import viewmodels.HrmViewModel
+import viewmodels.SrmViewModel
 
 @Composable
 fun SettingsScreen(viewModel: HrmViewModel = remember { HrmViewModel() }) {
@@ -21,4 +22,13 @@ fun SettingsScreen(viewModel: HrmViewModel = remember { HrmViewModel() }) {
         Spacer(modifier = Modifier.width(8.dp))
         HRMSensorReadingCard(viewModel)
     }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.disconnect()
+        }
+    }
+//    println(
+//        "ProfileScreen: ${getKoin().getScope("SRM").get<SrmViewModel>().connectionStatus}"
+//    )
 }
