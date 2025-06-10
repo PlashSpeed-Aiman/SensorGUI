@@ -49,13 +49,12 @@ class SrmViewModel : IModeViewModel {
         }
     }
 
-
     override fun connect(host: String, port: Int) {
         csvWriter = CsvWriterService("srm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
         scope.launch {
             tcpClient.connect(host, port)
             if ( tcpClient.connectionState.value == TcpClientService.ConnectionState.Connected ) {
-                csvWriter = CsvWriterService("hrm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
+                csvWriter = CsvWriterService("./results/srm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
             } else {
                 println("Failed to connect to server")
             }
