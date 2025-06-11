@@ -49,10 +49,14 @@ class HrmViewModel: IModeViewModel {
 
 
     override fun connect(host: String, port: Int) {
-        csvWriter = CsvWriterService("hrm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
         scope.launch {
             tcpClient.connect(host, port)
             if ( tcpClient.connectionState.value == TcpClientService.ConnectionState.Connected ) {
+                val resultsDir = "./results"
+                val resultsDirFile = java.io.File(resultsDir)
+                if (!resultsDirFile.exists()) {
+                    resultsDirFile.mkdir()
+                }
                 csvWriter = CsvWriterService("./results/hrm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
             } else {
                 println("Failed to connect to server")

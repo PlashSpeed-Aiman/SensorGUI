@@ -50,10 +50,15 @@ class SrmViewModel : IModeViewModel {
     }
 
     override fun connect(host: String, port: Int) {
-        csvWriter = CsvWriterService("srm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
         scope.launch {
             tcpClient.connect(host, port)
             if ( tcpClient.connectionState.value == TcpClientService.ConnectionState.Connected ) {
+                //create directory if not exists
+                val resultsDir = "./results"
+                val resultsDirFile = java.io.File(resultsDir)
+                if (!resultsDirFile.exists()) {
+                    resultsDirFile.mkdir()
+                }
                 csvWriter = CsvWriterService("./results/srm_data_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.csv")
             } else {
                 println("Failed to connect to server")

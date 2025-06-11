@@ -130,7 +130,7 @@ fun HRMSensorReadingCard(viewModel: HrmViewModel) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Valve",
+                            text = "Ignition",
                             color = Color.Black,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium
@@ -175,7 +175,7 @@ fun HRMSensorReadingCard(viewModel: HrmViewModel) {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = viewModel.sensorViewModel.valveStatus,
+                                    text = viewModel.sensorViewModel.ignitionStatus,
                                     color = Color.Black,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Medium
@@ -197,7 +197,7 @@ fun HRMSensorReadingCard(viewModel: HrmViewModel) {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "Burn Time",
+                                    text = "Type",
                                     color = Color.White,
                                     fontSize = 12.sp,
                                     fontWeight = FontWeight.Medium
@@ -218,26 +218,8 @@ fun HRMSensorReadingCard(viewModel: HrmViewModel) {
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = viewModel.sensorViewModel.burnTime ?: "N/A",
+                                        text = viewModel.sensorViewModel.ignitionType ?: "N/A",
                                         color = Color.Black,
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Medium
-                                    )
-                                }
-
-                                Box(
-                                    modifier = Modifier
-                                        .weight(0.2f)
-                                        .background(
-                                            Color(0xFF2E8B8B),
-                                            RoundedCornerShape(6.dp)
-                                        )
-                                        .padding(vertical = 8.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = "s",
-                                        color = Color.White,
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Medium
                                     )
